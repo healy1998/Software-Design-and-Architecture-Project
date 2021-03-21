@@ -9,10 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoftwareDesignandArchitectureProject">
-        <activity android:name=".Home_Activity"></activity>
-        <activity android:name=".Profile_Activity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".Login_Activity" />
+        <activity android:name=".Home_Activity"
+            android:parentActivityName= ".Profile_Activity"
+            />
+        <activity android:name=".Profile_Activity"
+            android:parentActivityName= ".MainActivity"
+            />
+        <activity android:name=".RegistrationActivity"
+            android:parentActivityName= ".MainActivity"
+            />
+        <activity android:name=".Login_Activity"
+            android:parentActivityName= ".MainActivity"
+            />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

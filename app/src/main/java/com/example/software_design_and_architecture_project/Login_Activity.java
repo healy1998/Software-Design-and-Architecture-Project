@@ -29,6 +29,7 @@ public class Login_Activity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // taking instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
