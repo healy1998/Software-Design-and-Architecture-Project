@@ -24,12 +24,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e3371f8-e673-4dec-b12a-edef6850ec7f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/software_design_and_architecture_project/Upload_activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/software_design_and_architecture_project/Upload_activity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_upload_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_upload_.xml" afterDir="false" />
-    </list>
+    <list default="true" id="6e3371f8-e673-4dec-b12a-edef6850ec7f" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
