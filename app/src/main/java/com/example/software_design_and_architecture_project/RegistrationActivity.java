@@ -1,6 +1,7 @@
 package com.example.software_design_and_architecture_project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -24,6 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button Btn;
     private ProgressBar progressbar;
     private FirebaseAuth mAuth;
+    private String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,17 +66,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Validations for input email and password
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),
-                    "Please enter email!!",
-                    Toast.LENGTH_LONG)
-                    .show();
+            message = "please enter Email";
+            ShowMessage(message);
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),
-                    "Please enter password!!",
-                    Toast.LENGTH_LONG)
-                    .show();
+            message = "please enter Password";
+            ShowMessage(message);
             return;
         }
 
@@ -104,17 +102,20 @@ public class RegistrationActivity extends AppCompatActivity {
                         else {
 
                             // Registration failed
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    "Registration failed!!"
-                                            + " Please try again later",
-                                    Toast.LENGTH_LONG)
-                                    .show();
+                               message = "Registration failed, please try again";
+                               ShowMessage(message);
 
                             // hide the progress bar
                             progressbar.setVisibility(View.GONE);
                         }
                     }
                 });
+    }
+    protected void ShowMessage(String message){
+        AlertDialog show = new AlertDialog.Builder(this)
+                .setTitle("Message")
+                .setMessage(message)
+                .setNeutralButton("OK", null)
+                .show();
     }
 }

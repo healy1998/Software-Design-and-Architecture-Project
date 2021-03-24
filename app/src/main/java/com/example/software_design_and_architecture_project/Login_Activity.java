@@ -1,6 +1,7 @@
 package com.example.software_design_and_architecture_project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -22,6 +23,7 @@ public class Login_Activity extends AppCompatActivity {
     private EditText emailTextView, passwordTextView;
     private Button Btn;
     private ProgressBar progressbar;
+    private  String message;
 
     private FirebaseAuth mAuth;
     @Override
@@ -45,6 +47,7 @@ public class Login_Activity extends AppCompatActivity {
             public void onClick(View v)
             {
                 loginUserAccount();
+
             }
         });
     }
@@ -62,18 +65,14 @@ public class Login_Activity extends AppCompatActivity {
 
         // validations for input email and password
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),
-                    "Please enter email!!",
-                    Toast.LENGTH_LONG)
-                    .show();
+            message = "Please enter Email" ;
+            ShowMessage(message);
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),
-                    "Please enter password!!",
-                    Toast.LENGTH_LONG)
-                    .show();
+            message = "Please enter Password" ;
+            ShowMessage(message);
             return;
         }
 
@@ -86,34 +85,29 @@ public class Login_Activity extends AppCompatActivity {
                                     @NonNull Task<AuthResult> task)
                             {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Login successful!!",
-                                            Toast.LENGTH_LONG)
-                                            .show();
-
                                     // hide the progress bar
                                     progressbar.setVisibility(View.GONE);
-
+                                    Toast.makeText(Login_Activity.this,"successfully logged in!", Toast.LENGTH_SHORT).show();
                                     // if sign-in is successful
                                     // intent to home activity
-                                    Intent intent
-                                            = new Intent(Login_Activity.this,
-                                            Profile_Activity.class);
+                                    Intent intent = new Intent(Login_Activity.this, Profile_Activity.class);
                                     startActivity(intent);
                                 }
 
                                 else {
-
-                                    // sign-in failed
-                                    Toast.makeText(getApplicationContext(),
-                                            "Login failed!!",
-                                            Toast.LENGTH_LONG)
-                                            .show();
-
-                                    // hide the progress bar
-                                    progressbar.setVisibility(View.GONE);
+                                        message = "login failed" ;
+                                        ShowMessage(message);
+                                        // hide the progress bar
+                                        progressbar.setVisibility(View.GONE);
                                 }
                             }
                         });
+    }
+    protected void ShowMessage(String message){
+        AlertDialog show = new AlertDialog.Builder(this)
+                .setTitle("Message")
+                .setMessage(message)
+                .setNeutralButton("OK", null)
+                .show();
     }
 }
