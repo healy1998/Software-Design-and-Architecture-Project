@@ -22,7 +22,7 @@ public class Profile_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                Intent homeIntent = new Intent(Profile_Activity.this,
-                                              Home_Activity.class);
+                                              Recommendation_Activity.class);
                startActivity(homeIntent);
             }
         });
