@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -35,10 +39,16 @@ public class Upload_activity extends AppCompatActivity implements View.OnClickLi
     private static final int REQUEST_CODE = 1;
     private ImageView imageView;
     private Button buttonChoose, buttonUpload;
+    private TextView uploadName, uploadGenre;
 
     private Uri filePath;
 
-    private StorageReference storageReference;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+
+    public Upload_activity(FirebaseDatabase database) {
+        this.database = database;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +56,14 @@ public class Upload_activity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_upload_);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("message");
 
         imageView = (ImageView) findViewById(R.id.imageView);
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
+        uploadName = (TextView) findViewById((R.id.name));
+        uploadGenre = (TextView) findViewById(R.id.genre);
 
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
