@@ -34,8 +34,26 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/linearLayout"/>
+        android:layout_width="386dp"
+        android:layout_height="549dp"
+        android:layout_below="@id/linearLayout"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="-4dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="382dp"
+        android:layout_height="39dp"
+        android:text="Name"
+        tools:layout_editor_absoluteX="-3dp"
+        tools:layout_editor_absoluteY="562dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="378dp"
+        android:layout_height="41dp"
+        android:text="Genre"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="619dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
