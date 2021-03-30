@@ -36,5 +36,8 @@ public class Recommendation_Activity extends AppCompatActivity {
         recommendations.add("Godzilla vs King Kong");
         recommendations.add("The Green Mile");
         recommendations.add("Shawshank Redemption");
+        recommendations.add("Avengers: End Game");
+        recommendations.add("How to Train Your Dragon");
+        recommendations.add("The Godfather");
     }
 }
