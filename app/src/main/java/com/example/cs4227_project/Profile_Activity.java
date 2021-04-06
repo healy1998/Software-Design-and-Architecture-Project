@@ -2,6 +2,7 @@ package com.example.cs4227_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -73,6 +74,8 @@ public class Profile_Activity extends AppCompatActivity {
                 profileSetup.setAge(a);
                 profileSetup profileSetup1= new profileSetup(n,a,hr,cmdy,sc,act,roma,dis);
                 myRef.setValue(profileSetup1);
+                Intent LoginActivityIntent = new Intent(Profile_Activity.this, Home_Activity.class);
+                startActivity(LoginActivityIntent);
             }
         });
     }
