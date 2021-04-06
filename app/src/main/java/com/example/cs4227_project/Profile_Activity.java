@@ -38,8 +38,9 @@ public class Profile_Activity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uuid = auth.getCurrentUser().getUid().toString();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("UserInfo");
+                DatabaseReference myRef = database.getReference(uuid);
                 profileSetup profileSetup = new profileSetup();
 
                 if (horror.isChecked()){
