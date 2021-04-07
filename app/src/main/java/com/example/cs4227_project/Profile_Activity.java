@@ -76,6 +76,7 @@ public class Profile_Activity extends AppCompatActivity {
                 myRef.setValue(profileSetup1);
                 Intent LoginActivityIntent = new Intent(Profile_Activity.this, Home_Activity.class);
                 startActivity(LoginActivityIntent);
+
             }
         });
     }
