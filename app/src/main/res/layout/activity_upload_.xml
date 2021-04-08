@@ -4,6 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     tools:context=".upload_Activity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/buttonChoose"
+            android:text="Choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/buttonUpload"
+            android:text="Upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="386dp"
+        android:layout_height="549dp"
+        android:layout_below="@id/linearLayout"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="-4dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="382dp"
+        android:layout_height="39dp"
+        android:text="Name"
+        tools:layout_editor_absoluteX="-3dp"
+        tools:layout_editor_absoluteY="562dp" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="378dp"
+        android:layout_height="41dp"
+        android:text="Genre"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="619dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

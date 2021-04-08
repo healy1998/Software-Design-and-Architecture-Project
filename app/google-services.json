@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "288919630621",
+    "firebase_url": "https://cs4227-project-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "cs4227-project",
     "storage_bucket": "cs4227-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:288919630621:android:0f783a89db67ac4e1b27f4",
+        "mobilesdk_app_id": "1:288919630621:android:b8513fa790777aa41b27f4",
         "android_client_info": {
           "package_name": "com.example.software_design_and_architecture_project"
         }
