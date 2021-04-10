@@ -72,7 +72,8 @@ public class Profile_Activity extends AppCompatActivity {
                 profileSetup.setName(n);
                 a = age.getEditableText().toString();
                 profileSetup.setAge(a);
-                profileSetup profileSetup1= new profileSetup(n,a,hr,cmdy,sc,act,roma,dis);
+
+                profileSetup profileSetup1 = new profileSetup.ProfileBuilder(n,a).withOptionHorror(hr).withOptionComedy(cmdy).withOptionAction(act).withOptionScifi(sc).withOptionDisney(dis).withOptionRomance(roma).buildProfile();
                 myRef.setValue(profileSetup1);
                 Intent LoginActivityIntent = new Intent(Profile_Activity.this, Home_Activity.class);
                 startActivity(LoginActivityIntent);

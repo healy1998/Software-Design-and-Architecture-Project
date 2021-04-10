@@ -3,7 +3,9 @@ package com.example.cs4227_project;
 public class profileSetup {
     String name, age, horror, comedy, scifi,action,romance,disney;
 
-    public profileSetup(String name, String age, String horror, String comedy, String scifi, String action, String romance, String disney) {
+
+
+    public profileSetup(ProfileBuilder profileBuilder) {
         this.name = name;
         this.age = age;
         this.horror = horror;
@@ -80,5 +82,54 @@ public class profileSetup {
     public void setAction(String action) {
         this.action = action;
     }
-}
 
+    @Override
+    public String toString() {
+        return "profileSetup{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", horror='" + horror + '\'' +
+                ", comedy='" + comedy + '\'' +
+                ", scifi='" + scifi + '\'' +
+                ", action='" + action + '\'' +
+                ", romance='" + romance + '\'' +
+                ", disney='" + disney + '\'' +
+                '}';
+    }
+
+    public static class ProfileBuilder{
+        String name, age, horror, comedy, scifi,action,romance,disney;
+        public ProfileBuilder(String name, String age){
+            this.name =  name;
+            this.age = age;
+        }
+        public ProfileBuilder withOptionHorror(String horror){
+            this.horror = horror;
+            return this;
+        }
+        public ProfileBuilder withOptionComedy(String comedy){
+            this.comedy = comedy;
+            return this;
+        }
+        public ProfileBuilder withOptionScifi(String scifi){
+            this.scifi = scifi;
+            return this;
+        }
+        public ProfileBuilder withOptionAction(String action){
+            this.action = action;
+            return this;
+        }
+        public ProfileBuilder withOptionRomance(String romance){
+            this.romance = romance;
+            return this;
+        }
+        public ProfileBuilder withOptionDisney(String disney){
+            this.disney = disney;
+            return this;
+        }
+        public profileSetup buildProfile(){
+           return new profileSetup(this);
+        }
+
+    }
+}
