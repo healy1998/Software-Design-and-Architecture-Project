@@ -5,35 +5,18 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class Home_Activity extends AppCompatActivity {
+public class Recommendation_Activity extends AppCompatActivity {
     private ArrayList<String> recommendations;
     private RecyclerView recyclerView;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Button upload;
-        //Button recommendation;
-        setContentView(R.layout.activity_home_);
-        upload = findViewById(R.id.upload);
-        //recommendation = findViewById(R.id.recommendationsButton);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent uploadIntent = new Intent(Home_Activity.this,
-                        Upload_Activity.class);
-                startActivity(uploadIntent);
-            }
-        });
-
-
+        setContentView(R.layout.activity_recommendation);
         recyclerView = findViewById(R.id.RecommendationView);
         recommendations = new ArrayList<>();
 
