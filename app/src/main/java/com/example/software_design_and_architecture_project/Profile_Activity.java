@@ -60,6 +60,10 @@ public class Profile_Activity extends AppCompatActivity {
             @Override
 
             public void onClick(View v) {
+               Intent homeIntent = new Intent(Profile_Activity.this,
+                                              Recommendation_Activity.class);
+               startActivity(homeIntent);
+              
                 System.out.println("hi i got here");
                if(horror.isChecked()) {
                    interests.put("horror","horror");

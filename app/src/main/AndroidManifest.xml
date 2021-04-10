@@ -11,9 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoftwareDesignandArchitectureProject">
+        <activity android:name=".Recommendation_Activity"></activity>
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/Theme.SoftwareDesignandArchitectureProject.NoActionBar" />
         <activity
             android:name=".Upload_activity"
-            android:parentActivityName=".Home_Activity"/>
+            android:parentActivityName=".Home_Activity" />
         <activity
             android:name=".Home_Activity"
             android:parentActivityName=".Profile_Activity" />
