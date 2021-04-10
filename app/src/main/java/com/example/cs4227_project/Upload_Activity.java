@@ -8,13 +8,17 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -27,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class Upload_Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +40,8 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
     private static final int REQUEST_CODE = 1;
     private ImageView imageView;
     private Button buttonChoose, buttonUpload;
+    private EditText name, genre;
+    private String message;
 
     private Uri filePath;
 
@@ -43,7 +50,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_);
+        setContentView(R.layout.activity_upload);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -51,6 +58,8 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         imageView = (ImageView) findViewById(R.id.imageView);
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
+        name = (EditText) findViewById(R.id.name);
+        genre = (EditText) findViewById(R.id.genre);
 
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
@@ -66,13 +75,29 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
 
     private void uploadFile(){
 
+        String filmName, filmGenre;
+        filmName = name.getText().toString();
+        filmGenre = genre.getText().toString();
+
+        if (TextUtils.isEmpty(filmName)) {
+            message = "Please enter Film Name" ;
+            ShowMessage(message);
+            return;
+        }
+
+        if (TextUtils.isEmpty(filmGenre)){
+            message = "Please enter Genre of Film";
+            ShowMessage(message);
+            return;
+        }
+
         if(filePath != null) {
 
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference riversRef = storageReference.child("images/video.jpg");
+            StorageReference riversRef = storageReference.child(filmGenre+"/" + filmName +".jpg");
 
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -143,6 +168,14 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
             ActivityCompat.requestPermissions(Upload_Activity.this, permissions, REQUEST_CODE);
         }
 
+    }
+
+    protected void ShowMessage(String message){
+        AlertDialog show = new AlertDialog.Builder(this)
+                .setTitle("Message")
+                .setMessage(message)
+                .setNeutralButton("OK", null)
+                .show();
     }
 
     @Override
