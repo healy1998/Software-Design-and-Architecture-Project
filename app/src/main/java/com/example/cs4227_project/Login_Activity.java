@@ -64,14 +64,11 @@ public class Login_Activity extends AppCompatActivity {
 
         // validations for input email and password
         if (TextUtils.isEmpty(email)) {
-            message = "Please enter Email" ;
-            ShowMessage(message);
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            message = "Please enter Password" ;
-            ShowMessage(message);
+
             return;
         }
 
@@ -86,27 +83,26 @@ public class Login_Activity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // hide the progress bar
                                     progressbar.setVisibility(View.GONE);
-                                    Toast.makeText(Login_Activity.this,"successfully logged in!", Toast.LENGTH_SHORT).show();
                                     // if sign-in is successful
                                     // intent to home activity
+                                    loginInterceptor loginInterceptor = new loginInterceptor();
+                                    loginInterceptor.setMessage("login success!");
+                                    Toast.makeText(Login_Activity.this, loginInterceptor.toString(), Toast.LENGTH_SHORT).show();
+
                                     Intent intent = new Intent(Login_Activity.this, Profile_Activity.class);
                                     startActivity(intent);
                                 }
 
                                 else {
-                                    message = "login failed" ;
-                                    ShowMessage(message);
+
+                                    loginInterceptor loginInterceptor = new loginInterceptor();
+                                    loginInterceptor.setMessage("login failed!");
+                                    Toast.makeText(Login_Activity.this, loginInterceptor.toString(), Toast.LENGTH_SHORT).show();
                                     // hide the progress bar
                                     progressbar.setVisibility(View.GONE);
                                 }
                             }
                         });
     }
-    protected void ShowMessage(String message){
-        AlertDialog show = new AlertDialog.Builder(this)
-                .setTitle("Message")
-                .setMessage(message)
-                .setNeutralButton("OK", null)
-                .show();
-    }
+
 }
