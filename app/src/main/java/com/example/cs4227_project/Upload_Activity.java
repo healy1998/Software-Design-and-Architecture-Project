@@ -33,7 +33,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.UUID;
 
-public class Upload_Activity extends AppCompatActivity implements View.OnClickListener {
+public class Upload_Activity extends AppCompatActivity implements View.OnClickListener{
 
     private static final int PICK_IMAGE_REQUEST = 234;
     private static final String TAG = "UploadActivity";
@@ -97,7 +97,11 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference riversRef = storageReference.child(filmGenre+"/" + filmName +".jpg");
+            /*GenreFactory genreFactory = new GenreFactory();
+            Genre movie = genreFactory.getGenre(filmGenre);
+            genre.setText(new StringBuilder().append(movie.type()).toString());
+            genre.toString();*/
+            StorageReference riversRef = storageReference.child(filmGenre +"/" + filmName +".jpg");
 
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
