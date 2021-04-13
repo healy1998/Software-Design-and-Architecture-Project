@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,9 +40,6 @@ public class Profile_Activity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uuid = auth.getCurrentUser().getUid().toString();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference(uuid);
                 profileSetup profileSetup = new profileSetup();
 
                 if (horror.isChecked()){
@@ -73,10 +71,11 @@ public class Profile_Activity extends AppCompatActivity {
                 a = age.getEditableText().toString();
                 profileSetup.setAge(a);
 
-                profileSetup profileSetup1 = new profileSetup.ProfileBuilder(n,a).withOptionHorror(hr).withOptionComedy(cmdy).withOptionAction(act).withOptionScifi(sc).withOptionDisney(dis).withOptionRomance(roma).buildProfile();
-                myRef.setValue(profileSetup1);
-                Intent LoginActivityIntent = new Intent(Profile_Activity.this, Home_Activity.class);
-                startActivity(LoginActivityIntent);
+                profileSetup profilesetup = new profileSetup.ProfileBuilder(n,a).withOptionHorror(hr).withOptionComedy(cmdy).withOptionAction(act).withOptionScifi(sc).withOptionDisney(dis).withOptionRomance(roma).buildProfile();
+
+                Intent intent = new Intent(Profile_Activity.this, Home_Activity.class);
+                intent.putExtra("bundle", (Parcelable) profileSetup);
+                startActivity(intent);
 
             }
         });
