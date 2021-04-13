@@ -71,10 +71,11 @@ public class Profile_Activity extends AppCompatActivity {
                 a = age.getEditableText().toString();
                 profileSetup.setAge(a);
 
-                profileSetup profilesetup = new profileSetup.ProfileBuilder(n,a).withOptionHorror(hr).withOptionComedy(cmdy).withOptionAction(act).withOptionScifi(sc).withOptionDisney(dis).withOptionRomance(roma).buildProfile();
 
                 Intent intent = new Intent(Profile_Activity.this, Home_Activity.class);
-                intent.putExtra("bundle", (Parcelable) profileSetup);
+                profileSetup profilesetup = new profileSetup.ProfileBuilder(n,a).withOptionHorror(hr).withOptionComedy(cmdy).withOptionAction(act).withOptionScifi(sc).withOptionDisney(dis).withOptionRomance(roma).buildProfile();
+                profileSetup.toString();
+                intent.putExtra("profileSetup", profileSetup.toString());
                 startActivity(intent);
 
             }
