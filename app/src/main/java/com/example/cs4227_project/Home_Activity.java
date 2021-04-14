@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Home_Activity extends AppCompatActivity {
+public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.ListItemClickListener {
     private ArrayList<String> recommendations;
     public static ArrayList<String> recommendationNames;
     public static ArrayList<String> recommendationImages;
@@ -112,11 +112,18 @@ public class Home_Activity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        RecyclerAdapter adapter = new RecyclerAdapter(recommendations);
+        RecyclerAdapter adapter = new RecyclerAdapter(recommendations, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onListItemClick(int position) {
+        Intent watchIntent = new Intent(Home_Activity.this,
+                watch_Activity.class);
+        startActivity(watchIntent);
     }
 
     private void setInfo() {

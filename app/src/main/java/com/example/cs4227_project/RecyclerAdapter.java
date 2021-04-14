@@ -16,12 +16,18 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
     private ArrayList<String> recommendations;
+    final private ListItemClickListener mOnClickListener;
 
-    public RecyclerAdapter(ArrayList<String> recommendations){
-        this.recommendations = recommendations;
+    interface ListItemClickListener{
+        void onListItemClick(int position);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public RecyclerAdapter(ArrayList<String> recommendations, ListItemClickListener OnClickListener){
+        this.recommendations = recommendations;
+        this.mOnClickListener = OnClickListener;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView nameText;
         private ImageView image;
 
@@ -29,6 +35,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             super(view);
             nameText = view.findViewById(R.id.RecommendationName);
             image = view.findViewById(R.id.RecommendationImage);
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mOnClickListener.onListItemClick(position);
         }
     }
 
