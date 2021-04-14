@@ -1,5 +1,7 @@
 package com.example.cs4227_project;
 
+import java.util.ArrayList;
+
 public interface Recommendation {
-    public void accept(RecommendationVisitor recommendationVisitor);
+    public ArrayList accept(RecommendationVisitor recommendationVisitor);
 }
