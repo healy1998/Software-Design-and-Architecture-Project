@@ -33,19 +33,22 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.UUID;
 
+
 public class Upload_Activity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final int PICK_IMAGE_REQUEST = 234;
-    private static final String TAG = "UploadActivity";
-    private static final int REQUEST_CODE = 1;
-    private ImageView imageView;
-    private Button buttonChoose, buttonUpload;
-    private EditText name, genre;
+
+
+    public static final int PICK_IMAGE_REQUEST = 234;
+    public static final String TAG = "UploadActivity";
+    public static final int REQUEST_CODE = 1;
+    public ImageView imageView;
+    public StorageReference storageReference;
+    public Button buttonChoose;
+    public Button buttonUpload;
+    public EditText name;
+    public EditText genre;
+    public Uri filePath;
     private String message;
-
-    private Uri filePath;
-
-    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,99 +68,40 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         buttonUpload.setOnClickListener(this);
     }
 
-    private void showFileChooser()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction((Intent.ACTION_GET_CONTENT));
-        startActivityForResult(Intent.createChooser(intent, "Select an Image"), PICK_IMAGE_REQUEST);
-    }
-
-    private void uploadFile(){
-
-        String filmName, filmGenre;
-        filmName = name.getText().toString();
-        filmGenre = genre.getText().toString();
-
-        if (TextUtils.isEmpty(filmName)) {
-            message = "Please enter Film Name" ;
-            ShowMessage(message);
-            return;
-        }
-
-        if (TextUtils.isEmpty(filmGenre)){
-            message = "Please enter Genre of Film";
-            ShowMessage(message);
-            return;
-        }
-
-        if(filePath != null) {
-
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            /*GenreFactory genreFactory = new GenreFactory();
-            Genre movie = genreFactory.getGenre(filmGenre);
-            genre.setText(new StringBuilder().append(movie.type()).toString());
-            genre.toString();*/
-            StorageReference riversRef = storageReference.child(filmGenre +"/" + filmName +".jpg");
-
-            riversRef.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
-                            progressDialog.setMessage(((int) progress) + "% Uploaded...");
-                        }
-                    })
-            ;
-        }else{
-            //display error toast
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
-        {
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-            } catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public void onClick(View view)
     {
+        //System.out.println("here") for debugging
+        System.out.println("here");
         if(view == buttonChoose){
             //open file chooser
-            showFileChooser();
+            System.out.println("here");
+            //showFileChooser();
+
+            //attempt at using the command pattern
+            Uploader newUpload = UploadManager.getUpload();
+            //crashes here
+            System.out.println("here");
+
+            showFileChooser showFileChooserCommand = new showFileChooser(newUpload);
+            System.out.println("here");
+            UploaderButton showFileChooserPressed = new UploaderButton(showFileChooserCommand);
+            System.out.println("here");
+            showFileChooserPressed.press();
+            System.out.println("here");
+
         }
         else if(view == buttonUpload){
             //upload file to firebase storage
-            uploadFile();
+
+            //uploadFile();
+            Uploader newUpload2 = UploadManager.getUpload();
+
+            uploadFile uploadFileCommand = new uploadFile(newUpload2);
+
+            UploaderButton uploadFilePressed = new UploaderButton(uploadFileCommand);
+
+            uploadFilePressed.press();
         }
     }
 
@@ -167,19 +111,17 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
 
         if(ContextCompat.checkSelfPermission(this.getApplicationContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED)
         {
-            showFileChooser();
+            Uploader newUpload = UploadManager.getUpload();
+
+            showFileChooser onCommand = new showFileChooser(newUpload);
+
+            UploaderButton onPressed = new UploaderButton(onCommand);
+
+            onPressed.press();
         }else{
             ActivityCompat.requestPermissions(Upload_Activity.this, permissions, REQUEST_CODE);
         }
 
-    }
-
-    protected void ShowMessage(String message){
-        AlertDialog show = new AlertDialog.Builder(this)
-                .setTitle("Message")
-                .setMessage(message)
-                .setNeutralButton("OK", null)
-                .show();
     }
 
     @Override
