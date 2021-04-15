@@ -1,14 +1,12 @@
 package com.example.cs4227_project;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.storage.UploadTask;
 
 public interface Mediator {
 
-    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot);
-
-    public void onFailure(@NonNull Exception e);
-
-    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot);
+    public void ShowMessage(String message);
 }

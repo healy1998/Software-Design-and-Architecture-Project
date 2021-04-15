@@ -73,6 +73,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
     public EditText genre;
     public Uri filePath;
     private String message;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,9 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
 
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
+
+        progressDialog = new ProgressDialog(this);
+
     }
 
     class FileChooser {
@@ -107,25 +111,24 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
             String filmName, filmGenre;
             filmName = name.getText().toString();
             filmGenre = genre.getText().toString();
+            UploadMediator um = new UploadMediator();
 
             if (TextUtils.isEmpty(filmName)) {
                 message = "Please enter Film Name";
-                ShowMessage(message);
+                um.ShowMessage(message);
                 return;
             }
 
             if (TextUtils.isEmpty(filmGenre)) {
                 message = "Please enter Genre of Film";
-                ShowMessage(message);
+                um.ShowMessage(message);
                 return;
             }
 
             if (filePath != null) {
 
-                //ProgressDialog progressDialog;
-                //progressDialog = new ProgressDialog(this);
-                //progressDialog.setTitle("Uploading...");
-                //progressDialog.show();
+                progressDialog.setTitle("Uploading...");
+                progressDialog.show();
 
                 /*GenreFactory genreFactory = new GenreFactory();
                 Genre movie = genreFactory.getGenre(filmGenre);
@@ -137,14 +140,14 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                //progressDialog.dismiss();
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                //progressDialog.dismiss();
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         })
@@ -152,7 +155,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
                             @Override
                             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                //progressDialog.setMessage(((int) progress) + "% Uploaded...");
+                                progressDialog.setMessage(((int) progress) + "% Uploaded...");
                             }
                         });
             } else {
@@ -218,28 +221,27 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
-        {
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-            } catch(IOException e){
-                e.printStackTrace();
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+                filePath = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                    imageView.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
-    protected void ShowMessage(String message) {
-        AlertDialog show = new AlertDialog.Builder(this)
-                .setTitle("Message")
-                .setMessage(message)
-                .setNeutralButton("OK", null)
-                .show();
-    }
 
+    class UploadMediator extends Upload_Activity implements Mediator {
+        public void ShowMessage(String message) {
+            AlertDialog show = new AlertDialog.Builder(this)
+                    .setTitle("Message")
+                    .setMessage(message)
+                    .setNeutralButton("OK", null)
+                    .show();
+        }
+    }
 }
