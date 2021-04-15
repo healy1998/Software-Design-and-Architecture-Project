@@ -82,13 +82,36 @@ public class Home_Activity extends AppCompatActivity {
 
         //Reading images from firebase
         if(actionCheck){
-            //get file
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference listRef = storage.getReference().child("Action");
             makeArrays(listRef);
-            //Recommendation recommendation = new RecommendationFull(listRef, recommendations); //pass file here
-            //recommendations = recommendation.accept(new RecommendationDisplayVisitor());
         }
+        if(comedyCheck){
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference listRef = storage.getReference().child("Comedy");
+            makeArrays(listRef);
+        }
+        if(horrorCheck){
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference listRef = storage.getReference().child("Horror");
+            makeArrays(listRef);
+        }
+        if(romanceCheck){
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference listRef = storage.getReference().child("Romance");
+            makeArrays(listRef);
+        }
+        if(scifiCheck){
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference listRef = storage.getReference().child("Sci-fi");
+            makeArrays(listRef);
+        }
+        if(disneyCheck){
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference listRef = storage.getReference().child("Disney");
+            makeArrays(listRef);
+        }
+
 
         //Button recommendation;
         setContentView(R.layout.activity_home_);
