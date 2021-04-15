@@ -25,21 +25,33 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
     private ArrayList<ArrayList<String>> recommendations;
+    final private ListItemClickListener mOnClickListener;
 
-    public RecyclerAdapter(ArrayList<ArrayList<String>> recommendations){
+    public RecyclerAdapter(ArrayList<ArrayList<String>> recommendations, ListItemClickListener onClickListener){
         this.recommendations = recommendations;
+        this.mOnClickListener = onClickListener;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    interface ListItemClickListener{
+        void onListItemClick(int position);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView nameText;
         private ImageView image;
 
-        public MyViewHolder(final View view) {
+        public MyViewHolder(final View view, ListItemClickListener onClickListener) {
             super(view);
             nameText = view.findViewById(R.id.RecommendationName);
             image = view.findViewById(R.id.RecommendationImage);
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mOnClickListener.onListItemClick(position);
         }
     }
 
@@ -47,7 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommendation_items, parent, false);
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, mOnClickListener);
     }
 
     @Override

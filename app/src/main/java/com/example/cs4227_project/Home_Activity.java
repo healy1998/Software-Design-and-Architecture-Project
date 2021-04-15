@@ -28,7 +28,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class Home_Activity extends AppCompatActivity {
+public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.ListItemClickListener{
     public ArrayList<ArrayList<String>> recommendations = new ArrayList<ArrayList<String>>();
     public  ArrayList<String> imageName = new ArrayList<String>();
     public ArrayList<String> url = new ArrayList<String>();
@@ -112,11 +112,17 @@ public class Home_Activity extends AppCompatActivity {
     }
 
     public void setAdapter() {
-        RecyclerAdapter adapter = new RecyclerAdapter(recommendations);
+        RecyclerAdapter adapter = new RecyclerAdapter(recommendations, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+    }
+    @Override
+    public void onListItemClick(int position) {
+        Intent watchIntent = new Intent(Home_Activity.this,
+                watch_Activity.class);
+        startActivity(watchIntent);
     }
 
     private void setInfo() {
