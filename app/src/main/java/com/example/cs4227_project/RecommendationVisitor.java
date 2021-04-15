@@ -1,7 +1,9 @@
 package com.example.cs4227_project;
 
+import java.util.ArrayList;
+
 public interface RecommendationVisitor {
     public void visit(RecommendationName name);
     public void visit(RecommendationImage image);
-    public void visit(RecommendationFull full);
+    public ArrayList<ArrayList<String>> visit(RecommendationFull full);
 }

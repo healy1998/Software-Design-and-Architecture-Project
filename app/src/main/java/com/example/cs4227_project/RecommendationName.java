@@ -1,16 +1,19 @@
 package com.example.cs4227_project;
 
+import java.util.ArrayList;
+
 public class RecommendationName implements Recommendation{
 
-    public String name;
+    public ArrayList<String> nameList;
 
-    /*public RecommendationImage(String name){
-        this.name = name;
-    */
+    public RecommendationName(ArrayList<String> name) {
+        nameList = name;
+    }
 
     @Override
-    public void accept(RecommendationVisitor recommendationVisitor){
+    public ArrayList<ArrayList<String>> accept(RecommendationVisitor recommendationVisitor){
         recommendationVisitor.visit(this);
+        return  new ArrayList<ArrayList<String>>();
     }
 
 }
