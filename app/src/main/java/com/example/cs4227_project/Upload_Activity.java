@@ -69,7 +69,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         possibleGenres.add("Disney");
         possibleGenres.add("Horror");
         possibleGenres.add("Romance");
-        possibleGenres.add("Sci-Fi");
+        possibleGenres.add("Sci-fi");
 
 
         progressDialog = new ProgressDialog(this);
@@ -99,24 +99,18 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
                 return;
             }
 
-            for(int i=0; i < possibleGenres.size(); i++) {
-                if (filmGenre.equalsIgnoreCase(possibleGenres.get(i)))
-                {
-                    break;
-                }
-                else
-                {
-                    message = "Please enter a valid genre of film from one of these:" +
-                            "\nAction" +
-                            "\nComedy" +
-                            "\nDisney" +
-                            "\nHorror" +
-                            "\nRomance" +
-                            "\nSci-fi";
-                    UploadMediator u = new UploadMediator();
-                    u.DisplayMessage(message);
-                    return;
-                }
+            if (!possibleGenres.contains(filmGenre))
+            {
+                message = "Please enter a valid genre of film from one of these:" +
+                        "\nAction" +
+                        "\nComedy" +
+                        "\nDisney" +
+                        "\nHorror" +
+                        "\nRomance" +
+                        "\nSci-fi";
+                UploadMediator u = new UploadMediator();
+                u.DisplayMessage(message);
+                return;
             }
 
             if (filePath != null) {
