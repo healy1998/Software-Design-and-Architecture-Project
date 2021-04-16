@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Upload_Activity extends AppCompatActivity implements View.OnClickListener {
@@ -42,6 +43,8 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
     public Uri filePath;
     private String message;
     private ProgressDialog progressDialog;
+    private AlertDialog.Builder show;
+    private ArrayList<String> possibleGenres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,17 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
 
-        progressDialog = new ProgressDialog(this);
+        possibleGenres= new ArrayList<String>();
+        possibleGenres.add("Action");
+        possibleGenres.add("Comedy");
+        possibleGenres.add("Disney");
+        possibleGenres.add("Horror");
+        possibleGenres.add("Romance");
+        possibleGenres.add("Sci-Fi");
 
+
+        progressDialog = new ProgressDialog(this);
+        show = new AlertDialog.Builder(this);
     }
 
     class FileChooser {
@@ -79,29 +91,38 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
             String filmName, filmGenre;
             filmName = name.getText().toString();
             filmGenre = genre.getText().toString();
-            UploadMediator um = new UploadMediator();
 
             if (TextUtils.isEmpty(filmName)) {
                 message = "Please enter Film Name";
-                um.ShowMessage(message);
+                UploadMediator um = new UploadMediator();
+                um.DisplayMessage(message);
                 return;
             }
 
-            if (TextUtils.isEmpty(filmGenre)) {
-                message = "Please enter Genre of Film";
-                um.ShowMessage(message);
-                return;
+            for(int i=0; i < possibleGenres.size(); i++) {
+                if (filmGenre.equalsIgnoreCase(possibleGenres.get(i)))
+                {
+                    break;
+                }
+                else
+                {
+                    message = "Please enter a valid genre of film from one of these:" +
+                            "\nAction" +
+                            "\nComedy" +
+                            "\nDisney" +
+                            "\nHorror" +
+                            "\nRomance" +
+                            "\nSci-fi";
+                    UploadMediator u = new UploadMediator();
+                    u.DisplayMessage(message);
+                    return;
+                }
             }
 
             if (filePath != null) {
 
                 progressDialog.setTitle("Uploading...");
                 progressDialog.show();
-
-                /*GenreFactory genreFactory = new GenreFactory();
-                Genre movie = genreFactory.getGenre(filmGenre);
-                genre.setText(new StringBuilder().append(movie.type()).toString());
-                genre.toString();*/
                 StorageReference riversRef = storageReference.child(filmGenre + "/" + filmName + ".jpg");
 
                 riversRef.putFile(filePath)
@@ -149,7 +170,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    static class showFileChooserOnCommand implements Command {
+    class showFileChooserOnCommand implements Command {
         private FileChooser myFileChooser;
 
         public showFileChooserOnCommand(FileChooser F) {
@@ -203,9 +224,9 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    class UploadMediator extends Upload_Activity implements Mediator {
-        public void ShowMessage(String message) {
-            AlertDialog show = new AlertDialog.Builder(this)
+    class UploadMediator implements Mediator {
+        public void DisplayMessage(String message) {
+            show
                     .setTitle("Message")
                     .setMessage(message)
                     .setNeutralButton("OK", null)
