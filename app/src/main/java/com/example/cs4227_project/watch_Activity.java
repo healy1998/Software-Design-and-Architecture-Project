@@ -23,6 +23,8 @@ public class watch_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent watchIntent = getIntent();
         ImageView posterImage = (ImageView) findViewById(R.id.posterView);
         TextView posterText = (TextView) findViewById(R.id.posterTitleText);

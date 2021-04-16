@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CS4227_Project">
-        <activity android:name=".watch_Activity"></activity>
+        <activity
+            android:name=".watch_Activity"
+            android:parentActivityName=".Profile_Activity" />
         <activity
             android:name=".Upload_Activity"
-            android:parentActivityName=".Home_Activity" />
+            android:parentActivityName=".Profile_Activity" />
         <activity
             android:name=".Home_Activity"
             android:parentActivityName=".Profile_Activity" />
