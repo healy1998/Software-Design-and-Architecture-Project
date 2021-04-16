@@ -27,11 +27,13 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.ListItemClickListener{
     public ArrayList<ArrayList<String>> recommendations = new ArrayList<ArrayList<String>>();
     public  ArrayList<String> imageName = new ArrayList<String>();
     public ArrayList<String> url = new ArrayList<String>();
+    public CountDownLatch countDownLatch = new CountDownLatch(1);
     private RecyclerView recyclerView;
     private Boolean actionCheck = false;
     private Boolean comedyCheck = false;
@@ -112,6 +114,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
             makeArrays(listRef);
         }
 
+
         //Button recommendation;
         setContentView(R.layout.activity_home_);
         upload = findViewById(R.id.upload);
@@ -142,8 +145,18 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
     }
     @Override
     public void onListItemClick(int position) {
+        Bundle watchBundle = new Bundle(3);
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Intent watchIntent = new Intent(Home_Activity.this,
                 watch_Activity.class);
+        watchBundle.putStringArrayList("clickedName", imageName);
+        watchBundle.putStringArrayList("clickedUrl", url);
+        watchBundle.putInt("position", position);
+        watchIntent = watchIntent.putExtra("com.example.cs4227_project.watchIntent", watchBundle);
         startActivity(watchIntent);
     }
 
@@ -170,6 +183,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {
+                        countDownLatch = new CountDownLatch(listResult.getItems().size());
                         for(StorageReference item : listResult.getItems()){
                             item.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                 @Override
@@ -183,6 +197,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
                                     if(url.size() == listResult.getItems().size()){
                                         startVisitor();
                                     }
+                                    countDownLatch.countDown();
                                 }
                             });
                         }

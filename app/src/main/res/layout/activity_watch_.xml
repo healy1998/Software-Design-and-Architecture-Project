@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".watch_Activity">
 
+    <ImageView
+        android:id="@+id/posterView"
+        android:layout_width="0dp"
+        android:layout_height="390dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/posterTitleText"
+        android:layout_width="267dp"
+        android:layout_height="42dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/posterView"
+        app:layout_constraintEnd_toEndOf="@+id/posterView"
+        app:layout_constraintStart_toStartOf="@+id/posterView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
