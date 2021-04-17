@@ -1,16 +1,6 @@
-package com.example.cs4227_project;
-
-import android.content.Intent;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.NameList;
+package com.example.cs4227_project.Visitor;
 
 import java.util.ArrayList;
-
-import javax.xml.namespace.QName;
 
 public class RecommendationDisplayVisitor implements RecommendationVisitor{
 
@@ -19,6 +9,7 @@ public class RecommendationDisplayVisitor implements RecommendationVisitor{
         for(int i =0; i < name.nameList.size(); i++){
             String movieName = (name.nameList.get(i).split("/")[4]);
             movieName = movieName.replace(".jpg","");
+            movieName = movieName.replace(".png","");
             movieName = movieName.replace("%20"," ");
             System.out.println(movieName);
             name.nameList.set(i, movieName);

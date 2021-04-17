@@ -12,16 +12,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.cs4227_project.Factory.ActionFactory;
+import com.example.cs4227_project.Factory.Genre;
+import com.example.cs4227_project.Factory.GenreFactory;
+import com.example.cs4227_project.Visitor.Recommendation;
+import com.example.cs4227_project.Visitor.RecommendationDisplayVisitor;
+import com.example.cs4227_project.Visitor.RecommendationFull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -45,75 +44,53 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Button upload;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         //user genres
-        System.out.println("'test'");
         String profset = getIntent().getStringExtra("profileSetup");
         String[] genres = profset.split(", ");
-        System.out.println(profset);
-        System.out.println(genres[5]);
-
+        ArrayList<Genre> genresChosen = new ArrayList<Genre>();
+        GenreFactory genreFactory = new GenreFactory();
         for(int i=0;i < genres.length;i++){
             String str = genres[i];
-            switch(str){
-                case "horror='Horror'":
-                    horrorCheck = true;
-                    break;
-                case "comedy='Comedy'":
-                    comedyCheck = true;
-                    break;
-                case "scifi='Scifi'":
-                    scifiCheck = true;
-                    break;
-                case "action='Action'":
-                    actionCheck = true;
-                    break;
-                case "romance='Romance'":
-                    romanceCheck = true;
-                    break;
-                case "disney='Disney'}":
-                    disneyCheck = true;
-                    break;
-                default:
-                    System.out.println("nothing");
+            str.replace("}","");
+            if(str.contains("'null'") == false && str.contains("name") == false && str.contains("age") == false) {
+                genresChosen.add(genreFactory.getGenre(str));
             }
         }
 
-        System.out.println(disneyCheck);
         recyclerView = findViewById(R.id.RecommendationView);
 
-        //Reading images from firebase
-        if(actionCheck){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference listRef = storage.getReference().child("Action");
-            makeArrays(listRef);
-        }
-        if(comedyCheck){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference listRef = storage.getReference().child("Comedy");
-            makeArrays(listRef);
-        }
-        if(horrorCheck){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference listRef = storage.getReference().child("Horror");
-            makeArrays(listRef);
-        }
-        if(romanceCheck){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference listRef = storage.getReference().child("Romance");
-            makeArrays(listRef);
-        }
-        if(scifiCheck){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference listRef = storage.getReference().child("Sci-fi");
-            makeArrays(listRef);
-        }
-        if(disneyCheck){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference listRef = storage.getReference().child("Disney");
-            makeArrays(listRef);
+
+        for(int i = 0; i < genresChosen.size();i++){
+            if(genresChosen.get(i).type() == "Action"){
+                StorageReference listRef = storage.getReference().child("Action");
+                makeArrays(listRef);
+            }
+            else if(genresChosen.get(i).type() == "Comedy"){
+                StorageReference listRef = storage.getReference().child("Comedy");
+                makeArrays(listRef);
+            }
+            else if(genresChosen.get(i).type() == "Horror"){
+                StorageReference listRef = storage.getReference().child("Horror");
+                makeArrays(listRef);
+            }
+            else if(genresChosen.get(i).type() == "Disney"){
+                StorageReference listRef = storage.getReference().child("Disney");
+                makeArrays(listRef);
+            }
+            else if(genresChosen.get(i).type() == "Sci-Fi"){
+                StorageReference listRef = storage.getReference().child("Sci-fi");
+                makeArrays(listRef);
+            }
+            else if(genresChosen.get(i).type() == "Romance"){
+                StorageReference listRef = storage.getReference().child("Romance");
+                makeArrays(listRef);
+            }
         }
 
+
+        System.out.println("AMOUNT OF GENRES CHOSEN: " + genresChosen.size());
 
         //Button recommendation;
         setContentView(R.layout.activity_home_);
@@ -128,12 +105,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
                 startActivity(uploadIntent);
             }
         });
-        //System.out.println(recommendations.get(0).get(0));
-        //recyclerView = findViewById(R.id.RecommendationView);
-        //recommendations = new ArrayList<>();
-        //setInfo();
-        //System.out.println(recommendations.get(0).get(0));
-        //setAdapter();
+
     }
 
     public void setAdapter() {
@@ -161,21 +133,8 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
     }
 
     private void setInfo() {
-        /*recommendations.add("Godzilla vs King Kong");
-        recommendations.add("The Green Mile");
-        recommendations.add("Shawshank Redemption");
-        recommendations.add("Avengers: End Game");
-        recommendations.add("How to Train Your Dragon");
-        recommendations.add("The Godfather");*/
-    }
 
-    /*public void setNameInfo(String name){
-        recommendations.add(name);
     }
-
-    public void setImageInfo(String url){
-        recommendations.add(url);
-    }*/
 
     public void makeArrays(StorageReference file){
         int count = 0;
@@ -190,10 +149,10 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     int count;
                                     imageName.add(item.toString());
-                                    System.out.println("NAME: " + item.toString());
+                                    //System.out.println("NAME: " + item.toString());
                                     Uri uri = task.getResult();
                                     url.add(uri.toString());
-                                    System.out.println("URL: " + uri.toString());
+                                    //System.out.println("URL: " + uri.toString());
                                     if(url.size() == listResult.getItems().size()){
                                         startVisitor();
                                     }
@@ -201,20 +160,8 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
                                 }
                             });
                         }
-                        //System.out.println("URL SIZE: " + imageName.size());
-                        //image = new RecommendationImage(url);
-                        //name = new RecommendationName(imageName);
                     }
-                }).addOnCompleteListener(new OnCompleteListener<ListResult>() {
-            @Override
-            public void onComplete(@NonNull Task<ListResult> task) {
-                /*Recommendation recommendation = new RecommendationFull(recommendations, imageName, url ); //pass file here
-                recommendations = recommendation.accept(new RecommendationDisplayVisitor());
-                recyclerView = findViewById(R.id.RecommendationView);
-                setAdapter();*/
-            }
-            //return recommendationVisitor.visit(this);
-        });
+                });
     }
 
     public void startVisitor(){

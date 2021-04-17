@@ -1,4 +1,4 @@
-package com.example.cs4227_project;
+package com.example.cs4227_project.Factory;
 
 public class ActionFactory implements Genre {
 
