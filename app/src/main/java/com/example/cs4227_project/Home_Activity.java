@@ -50,6 +50,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
         //user genres
         String profset = getIntent().getStringExtra("profileSetup");
         String[] genres = profset.split(", ");
+        //splits the profile string into its parts such as "Action=Action"
         ArrayList<Genre> genresChosen = new ArrayList<Genre>();
         GenreFactory genreFactory = new GenreFactory();
         for(int i=0;i < genres.length;i++){
@@ -61,7 +62,6 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
         }
 
         recyclerView = findViewById(R.id.RecommendationView);
-
 
         for(int i = 0; i < genresChosen.size();i++){
             if(genresChosen.get(i).type() == "Action"){

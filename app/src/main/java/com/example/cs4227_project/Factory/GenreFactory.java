@@ -12,7 +12,7 @@ public class GenreFactory {
         {
             return new ComedyFactory();
         }
-        if(genreType.equals("disney='Disney'"))
+        if(genreType.equals("disney='Disney'}"))
         {
             return new DisneyFactory();
         }
