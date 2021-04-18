@@ -1,5 +1,6 @@
 package com.example.cs4227_project;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,6 +24,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.example.cs4227_project.Command.showFileChooserOnCommand;
+import com.example.cs4227_project.Command.uploadFileOnCommand;
+import com.example.cs4227_project.Command.Change;
+import com.example.cs4227_project.Mediator.UploadMediator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +48,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
     public Uri filePath;
     private String message;
     private ProgressDialog progressDialog;
-    private AlertDialog.Builder show;
+    public static AlertDialog.Builder show;
     private ArrayList<String> possibleGenres;
 
     @Override
@@ -76,7 +81,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         show = new AlertDialog.Builder(this);
     }
 
-    class FileChooser {
+    public class FileChooser {
         public void showFileChooser() {
             Intent intent = new Intent();
             intent.setType("image/*");
@@ -86,7 +91,7 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    class Upload{
+    public class Upload{
         public void uploadFile() {
             String filmName, filmGenre;
             filmName = name.getText().toString();
@@ -147,47 +152,6 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    class Change {
-        private Command FileChooserCommand, UploadFileCommand;
-
-        public Change(Command Choose, Command Upload) {
-            FileChooserCommand = Choose;
-            UploadFileCommand = Upload;
-        }
-
-        void changeToFile() {
-            FileChooserCommand.execute();
-        }
-
-        void changeToUpload() {
-            UploadFileCommand.execute();
-        }
-    }
-
-    class showFileChooserOnCommand implements Command {
-        private FileChooser myFileChooser;
-
-        public showFileChooserOnCommand(FileChooser F) {
-            myFileChooser = F;
-        }
-
-        public void execute() {
-            myFileChooser.showFileChooser();
-        }
-    }
-
-    class uploadFileOnCommand implements Command {
-        private Upload myUpload;
-
-        public uploadFileOnCommand(Upload U) {
-            myUpload = U;
-        }
-
-        public void execute() {
-            myUpload.uploadFile();
-        }
-    }
-
     public void onClick(View view) {
         FileChooser testFileChooser = new FileChooser();
         showFileChooserOnCommand testSFC = new showFileChooserOnCommand(testFileChooser);
@@ -215,16 +179,6 @@ public class Upload_Activity extends AppCompatActivity implements View.OnClickLi
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    class UploadMediator implements Mediator {
-        public void DisplayMessage(String message) {
-            show
-                    .setTitle("Message")
-                    .setMessage(message)
-                    .setNeutralButton("OK", null)
-                    .show();
         }
     }
 }

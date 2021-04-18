@@ -36,6 +36,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
     private RecyclerView recyclerView;
     private Boolean actionCheck = false;
     private Boolean comedyCheck = false;
+
     private Boolean disneyCheck = false;
     private Boolean scifiCheck = false;
     private Boolean horrorCheck = false;
