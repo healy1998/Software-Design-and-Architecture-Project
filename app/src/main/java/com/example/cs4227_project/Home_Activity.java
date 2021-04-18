@@ -60,6 +60,7 @@ public class Home_Activity extends AppCompatActivity implements RecyclerAdapter.
                 genresChosen.add(genreFactory.getGenre(str));
             }
         }
+        System.out.println("DOES IT WORK?");
 
         recyclerView = findViewById(R.id.RecommendationView);
 
