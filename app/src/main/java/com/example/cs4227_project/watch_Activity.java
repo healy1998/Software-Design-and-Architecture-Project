@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.cs4227_project.PosterAdapter.PosterAdapter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,6 +26,7 @@ public class watch_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        PosterAdapter adapter = new PosterAdapter();
 
         Intent watchIntent = getIntent();
         ImageView posterImage = (ImageView) findViewById(R.id.posterView);
@@ -32,32 +35,10 @@ public class watch_Activity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        adaptIntent(watchIntent, posterText, posterImage);
-    }
+        String name = adapter.adaptIntentToTitle(watchIntent);
+        Bitmap map = adapter.adaptIntentToBitMap(watchIntent);
 
-    public void adaptIntent(Intent intent, TextView postText, ImageView postImage){
-        Bundle bundle = intent.getBundleExtra("com.example.cs4227_project.watchIntent");
-
-        ArrayList<String> imageName = new ArrayList<String>();
-        ArrayList<String> url = new ArrayList<String>();
-        int position = 0;
-
-        System.out.println(position + "initalized");
-
-        position = bundle.getInt("position");
-        System.out.println(position + "after");
-        imageName = bundle.getStringArrayList("clickedName");
-        url = bundle.getStringArrayList("clickedUrl");
-
-        System.out.println(imageName.get(1) + "after");
-        System.out.println(url.get(1) + "after");
-
-        String name = bundle.getStringArrayList("clickedName").get(position);
-        String calledUrl = bundle.getStringArrayList("clickedUrl").get(position);
-
-        Bitmap map = getBitmapFromURL(calledUrl);
-
-        changePoster(name,map,postText,postImage);
+        changePoster(name,map,posterText,posterImage);
     }
 
     public static void changePoster(String postName, Bitmap postMap, TextView tView, ImageView iView) {
@@ -65,19 +46,4 @@ public class watch_Activity extends AppCompatActivity {
         iView.setImageBitmap(postMap);
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
-            return null;
-        }
-    }
 }
