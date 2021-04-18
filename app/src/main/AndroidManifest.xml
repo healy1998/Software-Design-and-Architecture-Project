@@ -26,11 +26,11 @@
             android:name=".Login_Activity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <intent-interceptor>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-interceptor>
         </activity>
     </application>
 

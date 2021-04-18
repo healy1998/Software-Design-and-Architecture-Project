@@ -62,25 +62,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Validations for input email and password
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),
-                    "Please enter email!!",
-                    Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(getApplicationContext(),"Please enter email!!",Toast.LENGTH_LONG).show();
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(),
-                    "Please enter password!!",
-                    Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(getApplicationContext(), "Please enter password!!", Toast.LENGTH_LONG).show();
             return;
         }
 
         // create new user or register new user
-        mAuth
-                .createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
@@ -92,23 +84,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             // hide the progress bar
                             progressbar.setVisibility(View.GONE);
-
                             // if the user created intent to login activity
-                            Intent intent
-                                    = new Intent(RegistrationActivity.this,
-                                    Profile_Activity.class);
+                            Intent intent = new Intent(RegistrationActivity.this, Profile_Activity.class);
                             startActivity(intent);
                         }
                         else {
-
                             // Registration failed
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    "Registration failed!!"
-                                            + " Please try again later",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-
+                            Toast.makeText(getApplicationContext(),"Registration failed!!"+ " Please try again later", Toast.LENGTH_LONG).show();
                             // hide the progress bar
                             progressbar.setVisibility(View.GONE);
                         }
